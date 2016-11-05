@@ -14,11 +14,11 @@ import com.cjon.book.service.BookService;
 /**
  * Servlet implementation class BookListServlet
  */
-@WebServlet("/bookList")
-public class BookListServlet extends HttpServlet {
+@WebServlet("/bookDetail")
+public class BookDetailList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
-    public BookListServlet() {
+    public BookDetailList() {
         super();
     }
 
@@ -31,7 +31,7 @@ public class BookListServlet extends HttpServlet {
 		System.out.println(keyword);
 		System.out.println("키워드 이후로 ");
 		BookService service = new BookService();
-		String result = service.getListAll(keyword);
+		String result = service.getListOne(keyword);
 		
 		response.setContentType("text/plain; charset=UTF8");
 		PrintWriter out = response.getWriter();

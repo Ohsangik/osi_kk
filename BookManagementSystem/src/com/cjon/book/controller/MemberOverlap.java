@@ -14,24 +14,24 @@ import com.cjon.book.service.BookService;
 /**
  * Servlet implementation class BookListServlet
  */
-@WebServlet("/bookList")
-public class BookListServlet extends HttpServlet {
+@WebServlet("/loginCheck")
+public class MemberOverlap extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
-    public BookListServlet() {
+    public MemberOverlap() {
         super();
     }
 
     
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String keyword = request.getParameter("keyword");
+		String email = request.getParameter("email");
 		String callback = request.getParameter("callback");
 		
-		System.out.println(keyword);
+		System.out.println(email);
 		System.out.println("키워드 이후로 ");
 		BookService service = new BookService();
-		String result = service.getListAll(keyword);
+		String result = service.selectOneMember(email);
 		
 		response.setContentType("text/plain; charset=UTF8");
 		PrintWriter out = response.getWriter();

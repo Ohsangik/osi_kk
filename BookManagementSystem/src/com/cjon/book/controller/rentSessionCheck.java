@@ -8,17 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
 
 import com.cjon.book.service.BookService;
 
 /**
  * Servlet implementation class BookListServlet
  */
-@WebServlet("/bookUpdate")
-public class BookUpdateServlet extends HttpServlet {
+@WebServlet("/rentSessionCheck")
+public class rentSessionCheck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
-    public BookUpdateServlet() {
+    public rentSessionCheck() {
         super();
     }
 
@@ -26,20 +29,24 @@ public class BookUpdateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//1. 입력받고
-		
-		String isbn = request.getParameter("isbn");
-		String price = request.getParameter("price");
-		String title = request.getParameter("title");
-		String author = request.getParameter("author");
-		
-		
 		String callback = request.getParameter("callback");
+		String email = null;
+		System.out.println("세션체크하러 들어왔ㅆ스빈다.");
+		String result = null;
+		HttpSession session = request.getSession(true);
 		
-		System.out.println("업데이트트트트 ~~~!~!~들어옴");
-		//2.로직처리
 		
-		BookService service = new BookService();
-		boolean result = service.updateBook(isbn,price,title,author);
+		if(session!=null){
+			 email = (String) session.getAttribute("email");
+			 JSONObject obj = new JSONObject();
+			 obj.put("email", email);
+			 result = obj.toJSONString();
+			 
+		}else{
+			JSONObject obj = new JSONObject();
+			 obj.put("email", null);
+			 result = obj.toJSONString();
+		}
 		
 		
 		//3.출력처리
@@ -48,6 +55,8 @@ public class BookUpdateServlet extends HttpServlet {
 		out.println(callback+"("+result+")");
 		out.flush();
 		out.close();
+		
+		System.out.println(result+"세션 후후후후~ ");
 		
 	}
 

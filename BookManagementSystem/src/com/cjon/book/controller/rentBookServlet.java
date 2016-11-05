@@ -8,17 +8,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cjon.book.service.BookService;
 
 /**
  * Servlet implementation class BookListServlet
  */
-@WebServlet("/bookList")
-public class BookListServlet extends HttpServlet {
+@WebServlet("/rentbook")
+public class rentBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
-    public BookListServlet() {
+    public rentBookServlet() {
         super();
     }
 
@@ -28,10 +29,13 @@ public class BookListServlet extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		String callback = request.getParameter("callback");
 		
+		HttpSession session = request.getSession(true);
+		String userEmail = (String) session.getAttribute("email");	
+
 		System.out.println(keyword);
 		System.out.println("키워드 이후로 ");
 		BookService service = new BookService();
-		String result = service.getListAll(keyword);
+		String result = service.getrbookList(keyword,userEmail);
 		
 		response.setContentType("text/plain; charset=UTF8");
 		PrintWriter out = response.getWriter();

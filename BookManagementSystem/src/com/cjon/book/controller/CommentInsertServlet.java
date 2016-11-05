@@ -8,17 +8,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cjon.book.service.BookService;
 
 /**
  * Servlet implementation class BookListServlet
  */
-@WebServlet("/bookUpdate")
-public class BookUpdateServlet extends HttpServlet {
+@WebServlet("/commentInsert")
+public class CommentInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
-    public BookUpdateServlet() {
+    public CommentInsertServlet() {
         super();
     }
 
@@ -26,20 +27,23 @@ public class BookUpdateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//1. 입력받고
-		
 		String isbn = request.getParameter("isbn");
-		String price = request.getParameter("price");
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
-		
+		String pass = request.getParameter("pass");
+		String text = request.getParameter("text");
+		String content = request.getParameter("content");
+		String img = request.getParameter("img");
+
 		
 		String callback = request.getParameter("callback");
 		
-		System.out.println("업데이트트트트 ~~~!~!~들어옴");
+		System.out.println("서평 인서트로 로 들어왔습니다다다");
 		//2.로직처리
-		
+		HttpSession session = request.getSession(true);
+		String email = (String) session.getAttribute("email");
 		BookService service = new BookService();
-		boolean result = service.updateBook(isbn,price,title,author);
+		boolean result = service.commentInsert(isbn,title,author,pass,email,text,content,img);
 		
 		
 		//3.출력처리
